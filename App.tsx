@@ -1,29 +1,45 @@
 import { StatusBar } from 'expo-status-bar'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-// import Routes from './src/routes'
+import AppNavigator from './src/appNavigator'
 import * as firebase from 'firebase'
 import { firebaseConfig } from './config'
-import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
-import LoginScreen from './src/pages/Login'
-import LoadingScreen from './src/pages/Loading'
-import DashBoardScreen from './src/pages/DashBoard'
+import AsyncStorage from '@react-native-community/async-storage'
 
 if (!firebase.apps.length) {
 	firebase.initializeApp(firebaseConfig)
 }
 
-const AppStack = createStackNavigator()
-
 export default function App() {
+	useEffect(() => {
+		firebase.auth().onAuthStateChanged(async (user: any) => {
+			const getAsyncStorage = await AsyncStorage.getItem('@userLogged')
+
+			if (user && user !== null && !getAsyncStorage) {
+				try {
+					const userLoggedInInfo = {
+						isLogged: true,
+						userInfo: user,
+					}
+					await AsyncStorage.setItem('@userLogged', JSON.stringify(userLoggedInInfo))
+				} catch (e) {
+					console.error(e)
+				}
+			}
+		})
+	}, [])
+
 	return (
-		<NavigationContainer>
-			<AppStack.Navigator headerMode="screen">
-				<AppStack.Screen name="LoadingScreen" component={LoadingScreen} />
-				<AppStack.Screen name="LoginScreen" component={LoginScreen} />
-				<AppStack.Screen name="DashBoardScreen" component={DashBoardScreen} />
-			</AppStack.Navigator>
-		</NavigationContainer>
+		<View style={styles.container}>
+			<StatusBar backgroundColor="#ffa608" translucent />
+			<AppNavigator />
+		</View>
 	)
 }
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+	},
+})
