@@ -1,49 +1,17 @@
-import React from 'react'
-import { StyleSheet, View, Button } from 'react-native'
+import React, { useEffect } from 'react'
+import { StyleSheet, View, Button, Alert } from 'react-native'
 import * as Google from 'expo-google-app-auth'
+import * as Facebook from 'expo-facebook'
 import firebase from 'firebase'
 
 export default function Login() {
-	function onSignIn(googleUser: any) {
-		// We need to register an Observer on Firebase Auth to make sure auth is initialized.
-		const unsubscribe = firebase.auth().onAuthStateChanged(function (firebaseUser) {
-			unsubscribe()
-			// Check if we are already signed-in Firebase with the correct user.
-			if (!isUserEqual(googleUser, firebaseUser)) {
-				// Build Firebase credential with the Google ID token.
-				const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.idToken)
-				// Sign in with credential from the Google user.
-				firebase
-					.auth()
-					.signInWithCredential(credential)
-					.then(function (result) {
-						if (result?.user && result?.additionalUserInfo?.profile) {
-							firebase.database().ref(`/users/${result?.user?.uid}`).set({
-								gmail: result.user?.email,
-								firstName: result.user.displayName,
-							})
-						}
-					})
-					.catch(function (error) {
-						console.error(error)
-					})
+	useEffect(() => {
+		firebase.auth().onAuthStateChanged(async (user: any) => {
+			if (user && user !== null) {
+				console.log(user)
 			}
 		})
-	}
-
-	function isUserEqual(googleUser: any, firebaseUser: any) {
-		if (firebaseUser) {
-			const providerData = firebaseUser.providerData
-			const hasProviderData = providerData.some(
-				(provider: any) =>
-					provider.providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-					provider.uid === googleUser.getBasicProfile().getId()
-			)
-
-			return hasProviderData
-		}
-		return false
-	}
+	}, [])
 
 	async function signInWithGoogleAsync() {
 		try {
@@ -54,8 +22,13 @@ export default function Login() {
 				scopes: ['profile', 'email'],
 			})
 
-			if (result.type === 'success') {
-				onSignIn(result)
+			if (result.type === 'success' && result.accessToken) {
+				const credential = firebase.auth.GoogleAuthProvider.credential(result.idToken)
+
+				firebase
+					.auth()
+					.signInWithCredential(credential)
+					.catch((error) => console.error(error))
 				return result.accessToken
 			} else {
 				return { cancelled: true }
@@ -65,9 +38,27 @@ export default function Login() {
 		}
 	}
 
+	async function signInWithFacebookAsync() {
+		Facebook.initializeAsync('740800866676823')
+
+		Facebook.logInWithReadPermissionsAsync({
+			permissions: ['public_profile'],
+		}).then((result) => {
+			if (result.type === 'success') {
+				const credential = firebase.auth.FacebookAuthProvider.credential(result.token)
+
+				firebase
+					.auth()
+					.signInWithCredential(credential)
+					.catch((error) => console.error(error))
+			}
+		})
+	}
+
 	return (
 		<View style={styles.container}>
 			<Button title="Entre com o Google" onPress={() => signInWithGoogleAsync()} />
+			<Button title="Entre com o Facebook" onPress={() => signInWithFacebookAsync()} />
 		</View>
 	)
 }
