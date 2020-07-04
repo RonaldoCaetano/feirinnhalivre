@@ -4,6 +4,10 @@ import { Text, View, ScrollView, Dimensions } from 'react-native'
 import ProductCard from '../ProductCard'
 import api from './../../api'
 
+interface ListProductsProps {
+	city: string
+}
+
 interface Products {
 	id: number
 	nome: string
@@ -18,11 +22,11 @@ interface Products {
 	fk_vendedor: number
 }
 
-const ListProducts = () => {
+const ListProducts = ({ city }: ListProductsProps) => {
 	const [products, setProducts] = useState<Products[]>([])
 
 	useEffect(() => {
-		api.get<Products[]>('/products').then((productsResponse) => {
+		api.get<Products[]>(`/products`).then((productsResponse) => {
 			if (productsResponse?.data?.length) {
 				const { data: productsData } = productsResponse
 				setProducts(productsData)
@@ -38,17 +42,15 @@ const ListProducts = () => {
 			}}
 		>
 			<View style={styles.container}>
-				<View style={styles.column}>
-					{products.map((product) => (
-						<ProductCard
-							imgSrc={'teste.png'}
-							price={product.preco}
-							name={product.nome}
-							navigation={product.nome}
-							key={product.id}
-						/>
-					))}
-				</View>
+				{products.map((product) => (
+					<ProductCard
+						imgSrc={'teste.png'}
+						price={product.preco}
+						name={product.nome}
+						navigation={product.nome}
+						key={product.id}
+					/>
+				))}
 			</View>
 		</ScrollView>
 	)

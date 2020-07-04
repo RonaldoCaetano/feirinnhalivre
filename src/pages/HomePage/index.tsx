@@ -6,9 +6,11 @@ import SearchBar from '../../components/SearchBar'
 import LocationBar from '../../components/LocationBar'
 import PromoBar from '../../components/PromoCard'
 import * as Location from 'expo-location'
+import AsyncStorage from '@react-native-community/async-storage'
 
 export default function App() {
 	const [currentLocation, setCurrentLocation] = useState<any>(null)
+	const [city, setCity] = useState<string>('')
 
 	useEffect(() => {
 		;(async () => {
@@ -20,14 +22,35 @@ export default function App() {
 					coords: { latitude, longitude },
 				} = location
 
-				fetch(
-					`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true&key=AIzaSyBwJpOTDp1D6GOSGdGTATiCSN84gFEzuJE&language=pt-BR`
-				)
-					.then((res) => res.json())
-					.then((res) => {
-						const { formatted_address } = res.results[0]
-						setCurrentLocation(formatted_address)
-					})
+				const hasUserLocationOnStorage = await AsyncStorage.getItem('@userLocation')
+
+				if (!hasUserLocationOnStorage) {
+					fetch(
+						`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&sensor=true&key=AIzaSyBwJpOTDp1D6GOSGdGTATiCSN84gFEzuJE&language=pt-BR`
+					)
+						.then((res) => res.json())
+						.then(async (res) => {
+							const { formatted_address, address_components } = res.results[0]
+
+							const city = address_components.find(
+								(address: any) => address.types.indexOf('administrative_area_level_2') !== -1
+							)
+
+							const userLocation = {
+								city: city.long_name,
+								completeAddress: formatted_address,
+							}
+
+							await AsyncStorage.setItem('@userLocation', JSON.stringify(userLocation))
+
+							setCurrentLocation(formatted_address)
+							setCity(city.long_name)
+						})
+				} else {
+					const { city, completeAddress } = JSON.parse(hasUserLocationOnStorage)
+					setCurrentLocation(completeAddress)
+					setCity(city)
+				}
 			}
 		})()
 	}, [])
@@ -43,7 +66,7 @@ export default function App() {
 
 			<ScrollView style={styles.container}>
 				<PromoBar />
-				<ListProducts />
+				<ListProducts city={city.toUpperCase()} />
 			</ScrollView>
 		</View>
 	)
