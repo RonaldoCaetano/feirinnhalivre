@@ -1,59 +1,57 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './styles'
 import { Text, View, ScrollView, Dimensions } from 'react-native'
-import ProductCard from "../ProductCard";
+import ProductCard from '../ProductCard'
+import api from './../../api'
 
-type ListProductsProps = {
-    products: any,
+interface Products {
+	id: number
+	nome: string
+	descricao: string
+	fk_categoria: number
+	prod_subcategoria: any
+	preco_base: number
+	preco: number
+	comprimento: number
+	altura: number
+	largura: number
+	fk_vendedor: number
 }
 
-const { width, height } = Dimensions.get("screen");
+const ListProducts = () => {
+	const [products, setProducts] = useState<Products[]>([])
 
-const splitArray = (arr: any) => {
-    const { length } = arr;
-    const half = length / 2;
-    const firstHalf = arr.slice(0, half);
-    const secondHalf = arr.slice(half, length);
-    return { firstHalf, secondHalf };
-};
+	useEffect(() => {
+		api.get<Products[]>('/products').then((productsResponse) => {
+			if (productsResponse?.data?.length) {
+				const { data: productsData } = productsResponse
+				setProducts(productsData)
+			}
+		})
+	}, [])
 
-const ListProducts = ({ products }: ListProductsProps) => {
-    return (
-
-        <ScrollView
-            contentContainerStyle={{
-                paddingHorizontal: 20,
-                paddingVertical: 15
-            }}
-        >
-            <View style={styles.container}>
-                <View style={styles.column}>
-                    {splitArray(products).firstHalf.map((product: any) => (
-                        <ProductCard
-                            imgSrc={product.uri}
-                            price={product.price}
-                            name={product.name}
-                            navigation={product.name}
-                            key={product.name}
-                        />
-                    ))}
-                </View>
-                <View>
-                    {splitArray(products).secondHalf.map((product: any) => (
-                        <ProductCard
-                            imgSrc={product.uri}
-                            price={product.price}
-                            name={product.name}
-                            navigation={product.name}
-                            key={product.name}
-                        />
-                    ))}
-                </View>
-            </View>
-        </ScrollView>
-    )
+	return (
+		<ScrollView
+			contentContainerStyle={{
+				paddingHorizontal: 20,
+				paddingVertical: 15,
+			}}
+		>
+			<View style={styles.container}>
+				<View style={styles.column}>
+					{products.map((product) => (
+						<ProductCard
+							imgSrc={'teste.png'}
+							price={product.preco}
+							name={product.nome}
+							navigation={product.nome}
+							key={product.id}
+						/>
+					))}
+				</View>
+			</View>
+		</ScrollView>
+	)
 }
-
-
 
 export default ListProducts

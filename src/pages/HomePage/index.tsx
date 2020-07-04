@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, ScrollView } from 'react-native'
 import styles from './styles'
-import { products } from '../../../test'
 import ListProducts from '../../components/ListProducts'
 import SearchBar from '../../components/SearchBar'
 import LocationBar from '../../components/LocationBar'
@@ -44,7 +43,7 @@ export default function App() {
 
 			<ScrollView style={styles.container}>
 				<PromoBar />
-				<ListProducts products={products} />
+				<ListProducts />
 			</ScrollView>
 		</View>
 	)
