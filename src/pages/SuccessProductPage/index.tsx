@@ -1,29 +1,29 @@
-import React, { useState } from 'react'
-import { StatusBar, TextInput, KeyboardAvoidingView, Text, View, Image, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import React, { useState, useEffect } from 'react'
+import { StatusBar, TextInput, KeyboardAvoidingView, Text, View, Image, TouchableOpacity } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
 import styles from './styles'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import api from '../../api'
 
 export default function App() {
+	const route = useRoute()
 
-    const navigation = useNavigation()
+	return (
+		<View style={styles.container}>
+			<StatusBar barStyle="light-content" />
 
-    return (
-        <View style={styles.container}>
+			<View style={styles.ButtonContainer}>
+				<Text style={styles.TextAuth}>Seu produto foi adicionado com sucesso!</Text>
 
-            <StatusBar barStyle="light-content" />
+				<Image style={styles.melinho} source={require('../../../assets/images/success.png')} />
 
-            <View style={styles.ButtonContainer}>
-
-                <Text style={styles.TextAuth}>Seu produto foi adicionado com sucesso!</Text>
-
-                <Image style={styles.melinho} source={require('../../../assets/images/success.png')} />
-
-                <TouchableOpacity style={styles.ButtonAdvance} onPress={() => navigation.navigate('Produto')} >
-                    <Text style={styles.Text}>VER ANÚNCIO</Text>
-                </TouchableOpacity>
-
-            </View>
-        </View>
-    )
+				<TouchableOpacity
+					style={styles.ButtonAdvance}
+					onPress={() => navigation.navigate('Produto', { name: route.params.prodName })}
+				>
+					<Text style={styles.Text}>VER ANÚNCIO</Text>
+				</TouchableOpacity>
+			</View>
+		</View>
+	)
 }

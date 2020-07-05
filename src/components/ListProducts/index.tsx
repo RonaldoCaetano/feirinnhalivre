@@ -27,12 +27,14 @@ const ListProducts = ({ city }: ListProductsProps) => {
 	const [products, setProducts] = useState<Products[]>([])
 
 	useEffect(() => {
-		api.get<Products[]>(`/products`).then((productsResponse) => {
-			if (productsResponse?.data?.length) {
-				const { data: productsData } = productsResponse
-				setProducts(productsData)
-			}
-		})
+		;(async () => {
+			await api.get<Products[]>(`/products?city=${city.toUpperCase()}`).then((productsResponse) => {
+				if (productsResponse?.data?.length) {
+					const { data: productsData } = productsResponse
+					setProducts(productsData)
+				}
+			})
+		})()
 	}, [])
 
 	return (
@@ -50,6 +52,7 @@ const ListProducts = ({ city }: ListProductsProps) => {
 						name={product.nome}
 						navigation={product.nome}
 						key={product.id}
+						id={product.id}
 					/>
 				))}
 			</View>

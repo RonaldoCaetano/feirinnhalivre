@@ -1,12 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StatusBar, Text, View, Image, ScrollView, Dimensions } from 'react-native'
 import Swiper from 'react-native-swiper'
 import styles from './styles'
 import UserPartials from '../../components/UserPartials'
+import api from './../../api'
+import AsyncStorage from '@react-native-community/async-storage'
+import { useRoute } from '@react-navigation/native'
 
-const { width, height } = Dimensions.get('screen')
+const { height } = Dimensions.get('screen')
 
 export default function App() {
+	const [productResponse, setProductResponse] = useState<any>([])
+	const [address, setAddress] = useState<string>('')
+
+	const route = useRoute()
+
+	useEffect(() => {
+		;(async () => {
+			const getUserLocation = await AsyncStorage.getItem('@userLocation')
+
+			const { completeAddress } = JSON.parse(getUserLocation)
+
+			setAddress(completeAddress)
+
+			await api.get(`/product/${route.params.name}`).then((response) => {
+				if (response?.data) {
+					setProductResponse(response.data[0])
+				}
+			})
+		})()
+	}, [])
+
 	return (
 		<View style={styles.container}>
 			<StatusBar barStyle="light-content" />
@@ -19,37 +43,34 @@ export default function App() {
 					<Image
 						style={styles.image}
 						source={{
-							uri: 'https://i.pinimg.com/564x/8f/27/44/8f27446e4f69541cb465e50b93dae15e.jpg',
+							uri: productResponse.url_imagem,
 						}}
 					/>
 					<Image
 						style={styles.image}
 						source={{
-							uri: 'https://i.pinimg.com/564x/6e/90/41/6e90412772257e9d16b18f6449d0b141.jpg',
+							uri: productResponse.url_imagem,
 						}}
 					/>
 					<Image
 						style={styles.image}
 						source={{
-							uri: 'https://i.pinimg.com/564x/48/8a/ce/488acec32b6c8cf86fc034476b17b2bc.jpg',
+							uri: productResponse.url_imagem,
 						}}
 					/>
 				</Swiper>
 				<View style={styles.dataContainer}>
 					<View style={styles.TimeLocation}>
-						<Text>Rua Antônio Hércules, 66, Itatiba, SP • 2h </Text>
+						<Text>{address} • 2h </Text>
 					</View>
 					<View style={styles.NamePrice}>
-						<Text style={styles.NamePriceText}>Xaomi Redmi 2 AAAAAAAA AAAAAAAA AAAAA</Text>
-						<Text style={styles.NamePriceText}>R$ 49</Text>
+						<Text style={styles.NamePriceText}>{productResponse.nome}</Text>
+						<Text style={styles.NamePriceText}>{productResponse.preco_base}</Text>
 						<Text style={styles.NamePromoText}>10% OFF</Text>
 					</View>
 					<View style={styles.divider} />
 
-					<Text style={styles.description}>
-						Selling my 2017 DJI Spark. Barely used, pretty new in condition and its the “Fly More Combo". No
-						Negotiations please.
-					</Text>
+					<Text style={styles.description}>{productResponse.descricao}</Text>
 					<UserPartials
 						name="João Marcos"
 						rating={4.6}

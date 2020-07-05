@@ -29,7 +29,7 @@ export default function App() {
 				})
 				.then(({ data }) => {
 					if (data) {
-						navigation.navigate('SucessoProduto')
+						navigation.navigate('SucessoProduto', { prodName: name })
 					}
 				})
 		}

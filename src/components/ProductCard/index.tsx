@@ -3,17 +3,22 @@ import styles from './styles'
 import { Text, View, TouchableWithoutFeedback, Dimensions, TouchableOpacity, Platform } from 'react-native'
 import AutoHeightImage from 'react-native-auto-height-image'
 import { Ionicons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
+import { products } from '../../../test'
 
 type ProductCardProps = {
 	imgSrc: string
 	name: string
 	price: number
 	navigation: string
+	id: number
 }
 
 const { width } = Dimensions.get('screen')
 
 const ProductCard = ({ imgSrc, name, price }: ProductCardProps) => {
+	const navigation = useNavigation()
+
 	function currencyFormat(priceToFormat: number) {
 		return (
 			'R$ ' +
@@ -24,7 +29,7 @@ const ProductCard = ({ imgSrc, name, price }: ProductCardProps) => {
 	}
 
 	return (
-		<TouchableWithoutFeedback>
+		<TouchableWithoutFeedback onPress={() => navigation.navigate('Produto', { name })}>
 			<View style={styles.container}>
 				<View style={styles.ImageContainer}>
 					<AutoHeightImage
