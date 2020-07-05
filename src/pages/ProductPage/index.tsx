@@ -40,7 +40,7 @@ export default function App() {
 						<Text>Rua Antônio Hércules, 66, Itatiba, SP • 2h </Text>
 					</View>
 					<View style={styles.NamePrice}>
-						<Text style={styles.NamePriceText}>Xaomi Redmi 2</Text>
+						<Text style={styles.NamePriceText}>Xaomi Redmi 2 AAAAAAAA AAAAAAAA AAAAA</Text>
 						<Text style={styles.NamePriceText}>R$ 49</Text>
 						<Text style={styles.NamePromoText}>10% OFF</Text>
 					</View>

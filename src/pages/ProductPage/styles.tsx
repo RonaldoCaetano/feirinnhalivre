@@ -22,6 +22,7 @@ export default StyleSheet.create({
         marginBottom: 10,
     },
     NamePrice: {
+        flexWrap: "wrap",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",

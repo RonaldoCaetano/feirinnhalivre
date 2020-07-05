@@ -2,6 +2,7 @@ import React from 'react'
 import styles from './styles'
 import { Image, View, Text, TouchableOpacity } from 'react-native'
 import Avatar from '../Avatar'
+import { useNavigation } from '@react-navigation/native'
 
 type UserPartialsProps = {
     avatarUrl: any,
@@ -10,6 +11,9 @@ type UserPartialsProps = {
 }
 
 const UserPartials = ({ avatarUrl, name, rating }: UserPartialsProps) => {
+
+    const navigation = useNavigation()
+
     return (
         <View style={styles.container}>
             <View style={styles.column}>
@@ -23,7 +27,7 @@ const UserPartials = ({ avatarUrl, name, rating }: UserPartialsProps) => {
                 <View style={styles.firstButtonContainer}>
                     <TouchableOpacity style={styles.ButtonMsg}><Text style={styles.ButtonText}>Mensagem</Text></TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.ButtonBuy}><Text style={styles.ButtonText}>Comprar</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.ButtonBuy} onPress={() => navigation.navigate('Carrinho')}><Text style={styles.ButtonText}>Comprar</Text></TouchableOpacity>
             </View>
         </View>
     )

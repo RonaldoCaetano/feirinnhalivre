@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import { StatusBar, TextInput, KeyboardAvoidingView, Text, View, Image, TouchableOpacity } from "react-native";
+import { useNavigation } from '@react-navigation/native'
 import { Ionicons } from "@expo/vector-icons";
 import styles from './styles'
 
 export default function App() {
+
+    const navigation = useNavigation()
+
     return (
         <View style={styles.container}>
 
@@ -23,7 +27,7 @@ export default function App() {
                         />
                     </View>
 
-                    <TouchableOpacity style={styles.ButtonAdvance}>
+                    <TouchableOpacity style={styles.ButtonAdvance} onPress={() => navigation.navigate('Tab')}>
                         <Text style={styles.Text}>FINALIZAR</Text>
                     </TouchableOpacity>
 

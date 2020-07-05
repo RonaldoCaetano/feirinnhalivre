@@ -1,17 +1,29 @@
 import React from 'react'
-import { createSwitchNavigator, SwitchRouter, createAppContainer } from 'react-navigation'
+import { createSwitchNavigator, createAppContainer } from 'react-navigation'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import { NavigationContainer } from '@react-navigation/native'
 import { Platform } from 'react-native'
-
 import TabBarIcon from './components/TabBarIcon'
-import HomeScreen from './pages/HomePage'
+
 import LoginScreen from './pages/LoginPage'
-import AuthenticationScreen from './pages/DocumentPage'
+import AuthenticationScreen from './pages/AuthenticationPage'
 import NameScreen from './pages/NamePage'
+
+import HomeScreen from './pages/HomePage'
+import FavoriteScreen from './pages/FavoritePage'
+import CartScreen from './pages/CartProductsPage'
 import ProfileScreen from './pages/ProfilePage'
-import Camera from './pages/CameraPage'
+
+import ShippingScreen from './pages/ShippingPage'
+import PaymentScreen from './pages/PaymentPage'
+import PaymentSucsScreen from './pages/PaymentSuccessPage'
+import ProductScreen from './pages/ProductPage'
+import ProductSellerScreen from './pages/ProductSellerPage'
+import AddProductScreen from './pages/AddProductsPage'
+import AddPhotoScreen from './pages/AddPhotoProductsPage'
+import NewProductScreen from './pages/NewProductPage'
+import ProductSucScreen from './pages/SuccessProductPage'
 
 const AppStack = createStackNavigator()
 const AppTab = createBottomTabNavigator()
@@ -22,7 +34,7 @@ const TabNavigator = () => {
 			<AppTab.Navigator>
 				<AppTab.Screen
 					name="Home"
-					component={Camera}
+					component={MenuHome}
 					options={{
 						tabBarLabel: 'Home',
 						tabBarIcon: ({ color, size }) => (
@@ -32,7 +44,7 @@ const TabNavigator = () => {
 				/>
 				<AppTab.Screen
 					name="Favoritos"
-					component={AuthenticationScreen}
+					component={FavoriteScreen}
 					options={{
 						tabBarLabel: 'Favoritos',
 						tabBarIcon: ({ color, size }) => (
@@ -42,7 +54,7 @@ const TabNavigator = () => {
 				/>
 				<AppTab.Screen
 					name="Carrinho"
-					component={NameScreen}
+					component={Cart}
 					options={{
 						tabBarLabel: 'Carrinho',
 						tabBarIcon: ({ color, size }) => (
@@ -52,7 +64,7 @@ const TabNavigator = () => {
 				/>
 				<AppTab.Screen
 					name="Perfil"
-					component={ProfileScreen}
+					component={Perfil}
 					options={{
 						tabBarLabel: 'Perfil',
 						tabBarIcon: ({ color, size }) => (
@@ -67,11 +79,85 @@ const TabNavigator = () => {
 
 const AuthNavigator = () => {
 	return (
-		<NavigationContainer>
-			<AppStack.Navigator>
+		<NavigationContainer independent={true}>
+			<AppStack.Navigator
+				screenOptions={{
+					headerStyle: {
+						backgroundColor: '#FFA939',
+					},
+				}}
+			>
 				<AppStack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
 				<AppStack.Screen name="Cadastro" component={AuthenticationScreen} />
+				<AppStack.Screen name="Nome" component={NameScreen} />
 				<AppStack.Screen name="Tab" component={TabNavigator} options={{ headerShown: false }} />
+			</AppStack.Navigator>
+		</NavigationContainer>
+	)
+}
+
+const MenuHome = () => {
+	return (
+		<NavigationContainer independent={true}>
+			<AppStack.Navigator>
+				<AppStack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+				<AppStack.Screen name="Produto" component={ProductScreen} options={{ headerShown: true }} />
+				<AppStack.Screen name="Carrinho" component={CartScreen} options={{ headerShown: false }} />
+				<AppStack.Screen name="Entrega" component={ShippingScreen} options={{ headerShown: false }} />
+				<AppStack.Screen name="Pagamento" component={PaymentScreen} options={{ headerShown: false }} />
+				<AppStack.Screen
+					name="PagamentoSucesso"
+					component={PaymentSucsScreen}
+					options={{ headerShown: false }}
+				/>
+			</AppStack.Navigator>
+		</NavigationContainer>
+	)
+}
+
+const Cart = () => {
+	return (
+		<NavigationContainer independent={true}>
+			<AppStack.Navigator>
+				<AppStack.Screen name="Carrinho" component={CartScreen} options={{ headerShown: false }} />
+				<AppStack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+				<AppStack.Screen name="Entrega" component={ShippingScreen} options={{ headerShown: false }} />
+				<AppStack.Screen name="Pagamento" component={PaymentScreen} options={{ headerShown: false }} />
+				<AppStack.Screen
+					name="PagamentoSucesso"
+					component={PaymentSucsScreen}
+					options={{ headerShown: false }}
+				/>
+				<AppStack.Screen name="Produto" component={ProductScreen} options={{ headerShown: false }} />
+			</AppStack.Navigator>
+		</NavigationContainer>
+	)
+}
+
+const Perfil = () => {
+	return (
+		<NavigationContainer independent={true}>
+			<AppStack.Navigator>
+				<AppStack.Screen name="Perfil" component={ProfileScreen} options={{ headerShown: false }} />
+				<AppStack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+				<AppStack.Screen name="Produto" component={ProductScreen} options={{ headerShown: true }} />
+				<AppStack.Screen name="Carrinho" component={CartScreen} options={{ headerShown: false }} />
+				<AppStack.Screen name="Entrega" component={ShippingScreen} options={{ headerShown: false }} />
+				<AppStack.Screen name="Pagamento" component={PaymentScreen} options={{ headerShown: false }} />
+				<AppStack.Screen
+					name="PagamentoSucesso"
+					component={PaymentSucsScreen}
+					options={{ headerShown: false }}
+				/>
+				<AppStack.Screen
+					name="VenderProduto"
+					component={ProductSellerScreen}
+					options={{ headerShown: false }}
+				/>
+				<AppStack.Screen name="AddProduto" component={AddProductScreen} options={{ headerShown: false }} />
+				<AppStack.Screen name="AddPhoto" component={AddPhotoScreen} options={{ headerShown: false }} />
+				<AppStack.Screen name="NovoProduto" component={NewProductScreen} options={{ headerShown: false }} />
+				<AppStack.Screen name="SucessoProduto" component={ProductSucScreen} options={{ headerShown: false }} />
 			</AppStack.Navigator>
 		</NavigationContainer>
 	)
