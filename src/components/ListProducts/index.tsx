@@ -27,15 +27,17 @@ const ListProducts = ({ city }: ListProductsProps) => {
 	const [products, setProducts] = useState<Products[]>([])
 
 	useEffect(() => {
-		;(async () => {
-			await api.get<Products[]>(`/products?city=${city.toUpperCase()}`).then((productsResponse) => {
-				if (productsResponse?.data?.length) {
-					const { data: productsData } = productsResponse
-					setProducts(productsData)
-				}
-			})
-		})()
+		getProducts()
 	}, [])
+
+	async function getProducts() {
+		await api.get<Products[]>(`/products?city=${city.toUpperCase()}`).then((productsResponse) => {
+			if (productsResponse?.data?.length) {
+				const { data: productsData } = productsResponse
+				setProducts(productsData)
+			}
+		})
+	}
 
 	return (
 		<ScrollView
