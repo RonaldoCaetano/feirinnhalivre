@@ -50,7 +50,7 @@ export default function App() {
 					iconName={Platform.OS === 'ios' ? 'ios-cash' : 'md-cash'}
 				/>
 				<ProfileLink
-					rota="VenderProduto"
+					rota="DocumentoVendedor"
 					name="Vender Produtos"
 					description="Adicione de forma simples seus produtos para venda"
 					iconName={Platform.OS === 'ios' ? 'ios-cube' : 'md-cube'}
@@ -69,8 +69,8 @@ export default function App() {
 				/>
 				<ProfileLink
 					rota="Sair"
-					name="Sair do aplicado"
-					description="Volte sempre"
+					name="Deslogar e Fechar o Aplicativo"
+					description="Você pode voltar quando quiser :)"
 					iconName={Platform.OS === 'ios' ? 'ios-exit' : 'md-exit'}
 				/>
 			</ScrollView>

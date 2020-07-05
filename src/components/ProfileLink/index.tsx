@@ -2,7 +2,7 @@ import React from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { Platform } from 'react-native'
 import styles from './styles'
-import { Image, View, Text, TouchableOpacity } from 'react-native'
+import { Image, View, Text, TouchableOpacity, BackHandler } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import * as firebase from 'firebase'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -23,6 +23,7 @@ const ProfileLink = ({ iconName, name, description, rota }: ProfileLinkProps) =>
 		if (rota === 'Sair') {
 			firebase.auth().signOut()
 			await AsyncStorage.removeItem('@userLogged')
+			BackHandler.exitApp()
 		} else {
 			navigation.navigate(rota)
 		}

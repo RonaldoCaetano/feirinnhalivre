@@ -24,6 +24,7 @@ import AddProductScreen from './pages/AddProductsPage'
 import AddPhotoScreen from './pages/AddPhotoProductsPage'
 import NewProductScreen from './pages/NewProductPage'
 import ProductSucScreen from './pages/SuccessProductPage'
+import DocumentScreen from './pages/DocumentPage'
 
 const AppStack = createStackNavigator()
 const AppTab = createBottomTabNavigator()
@@ -149,6 +150,7 @@ const Perfil = () => {
 					component={PaymentSucsScreen}
 					options={{ headerShown: false }}
 				/>
+				<AppStack.Screen name="DocumentoVendedor" component={DocumentScreen} options={{ headerShown: false }} />
 				<AppStack.Screen
 					name="VenderProduto"
 					component={ProductSellerScreen}

@@ -32,10 +32,9 @@ export default function App() {
 							await AsyncStorage.removeItem('@userLogged')
 						}
 
-						await AsyncStorage.setItem('@userLogged', JSON.stringify({ name: nome, telefone }))
+						await AsyncStorage.setItem('@userLogged', JSON.stringify({ name: nome, phone: telefone }))
 
-						// navigation.navigate('Tabs')
-						navigation.navigate('Nome', { phone })
+						navigation.navigate('Tab')
 					} else {
 						navigation.navigate('Nome', { phone })
 					}
