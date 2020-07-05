@@ -36,18 +36,20 @@ export default function App() {
 		<View style={styles.container}>
 			<StatusBar barStyle="light-content" />
 			<ScrollView contentContainerStyle={{ paddingBottom: 40 }} bounces={false}>
-				<Swiper
-					style={{ height: height / 2.3, marginBottom: 20 }}
-					activeDotColor="white"
-					dotColor="rgba(255, 255, 255, 0.3)"
-				>
-					<Image
-						style={styles.image}
-						source={{
-							uri: productResponse.url_imagem,
-						}}
-					/>
-				</Swiper>
+				{productResponse?.url_imagem && (
+					<Swiper
+						style={{ height: height / 2.3, marginBottom: 20 }}
+						activeDotColor="white"
+						dotColor="rgba(255, 255, 255, 0.3)"
+					>
+						<Image
+							style={styles.image}
+							source={{
+								uri: productResponse.url_imagem,
+							}}
+						/>
+					</Swiper>
+				)}
 				<View style={styles.dataContainer}>
 					<View style={styles.TimeLocation}>
 						<Text>{address} • 2h </Text>

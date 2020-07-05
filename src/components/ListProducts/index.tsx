@@ -54,7 +54,7 @@ const ListProducts = ({ city }: ListProductsProps) => {
 					{products.map((product) => (
 						<ProductCard
 							imgSrc={product.url_imagem}
-							price={product.preco}
+							price={product.preco_base}
 							name={product.nome}
 							navigation={product.nome}
 							key={product.id}
