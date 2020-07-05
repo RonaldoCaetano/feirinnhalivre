@@ -1,59 +1,71 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './styles'
-import { Text, View, ScrollView, Dimensions } from 'react-native'
-import ProductSellerCard from "../ProductSellerCard";
+import { Text, View, ScrollView, Dimensions, ActivityIndicator, Alert } from 'react-native'
+import ProductSellerCard from '../ProductSellerCard'
+import AsyncStorage from '@react-native-community/async-storage'
+import api from '../../api'
+import currencyFormat from '../../utils/formatPrice'
 
-type ListSellerProductsProps = {
-    products: any,
+const ListSellerProducts = () => {
+	const [loading, setLoading] = useState<boolean>(true)
+	const [products, setProducts] = useState<any>([])
+
+	async function getProducts() {
+		if (loading && !products.length) {
+			const getStorage = await AsyncStorage.getItem('@userLogged')
+
+			if (getStorage) {
+				const { phone } = JSON.parse(getStorage)
+
+				api.get(`/products?sellerPhone=${phone}`)
+					.then(({ data }) => {
+						if (data?.length) {
+							setProducts(data)
+						}
+						setLoading(false)
+					})
+					.catch((error) => {
+						// console.error(error)
+						Alert.alert('Estamos passando por alguns problemas, tente novamente mais tarde')
+					})
+			}
+		}
+	}
+
+	getProducts()
+
+	return (
+		<ScrollView
+			contentContainerStyle={{
+				paddingHorizontal: 20,
+				paddingVertical: 15,
+			}}
+		>
+			<View style={styles.container}>
+				{loading ? (
+					<ActivityIndicator size="large" />
+				) : (
+					<View style={styles.column}>
+						{products.length ? (
+							<>
+								{products.map((product) => (
+									<ProductSellerCard
+										imgSrc={product.url_imagem}
+										price={currencyFormat(product.preco_base)}
+										name={product.nome}
+										navigation={product.nome}
+										key={product.id}
+									/>
+								))}
+							</>
+						) : (
+							<Text>Vamos lá, cadastre o seu primeiro produto :)</Text>
+						)}
+					</View>
+				)}
+			</View>
+		</ScrollView>
+	)
 }
-
-const { width, height } = Dimensions.get("screen");
-
-const splitArray = (arr: any) => {
-    const { length } = arr;
-    const half = length / 2;
-    const firstHalf = arr.slice(0, half);
-    const secondHalf = arr.slice(half, length);
-    return { firstHalf, secondHalf };
-};
-
-const ListSellerProducts = ({ products }: ListSellerProductsProps) => {
-    return (
-
-        <ScrollView
-            contentContainerStyle={{
-                paddingHorizontal: 20,
-                paddingVertical: 15
-            }}
-        >
-            <View style={styles.container}>
-                <View style={styles.column}>
-                    {splitArray(products).firstHalf.map((product: any) => (
-                        <ProductSellerCard
-                            imgSrc={product.uri}
-                            price={product.price}
-                            name={product.name}
-                            navigation={product.name}
-                            key={product.name}
-                        />
-                    ))}
-                </View>
-                <View>
-                    {splitArray(products).secondHalf.map((product: any) => (
-                        <ProductSellerCard
-                            imgSrc={product.uri}
-                            price={product.price}
-                            name={product.name}
-                            navigation={product.name}
-                            key={product.name}
-                        />
-                    ))}
-                </View>
-            </View>
-        </ScrollView>
-    )
-}
-
-
 
 export default ListSellerProducts

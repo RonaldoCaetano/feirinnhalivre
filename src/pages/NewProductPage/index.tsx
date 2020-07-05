@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { StatusBar, TextInput, KeyboardAvoidingView, Text, View, Image, TouchableOpacity } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -15,16 +14,18 @@ export default function App() {
 
 	async function handleProductsRegister() {
 		const getAsyncStorage = await AsyncStorage.getItem('@sellerProductData')
+		const getUserStorage = await AsyncStorage.getItem('@userLogged')
 
-		if (getAsyncStorage) {
+		if (getAsyncStorage && getUserStorage) {
 			const { picturesInBase64, categorySelected } = JSON.parse(getAsyncStorage)
+			const { phone } = JSON.parse(getUserStorage)
 
 			await api
 				.post(`/product`, {
 					name,
 					description,
 					basePrice: price,
-					city: 'ITATIBA',
+					phone,
 					imageUrl: JSON.stringify(picturesInBase64),
 				})
 				.then(({ data }) => {

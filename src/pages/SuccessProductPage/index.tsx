@@ -1,12 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import { StatusBar, TextInput, KeyboardAvoidingView, Text, View, Image, TouchableOpacity } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
+import React from 'react'
+import { StatusBar, Text, View, Image, TouchableOpacity } from 'react-native'
 import styles from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import api from '../../api'
+import AsyncStorage from '@react-native-community/async-storage'
 
 export default function App() {
+	const navigation = useNavigation()
 	const route = useRoute()
+
+	async function removeStorage() {
+		await AsyncStorage.removeItem('@sellerProductData')
+	}
+
+	removeStorage()
 
 	return (
 		<View style={styles.container}>

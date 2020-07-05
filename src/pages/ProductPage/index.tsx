@@ -6,6 +6,7 @@ import UserPartials from '../../components/UserPartials'
 import api from './../../api'
 import AsyncStorage from '@react-native-community/async-storage'
 import { useRoute } from '@react-navigation/native'
+import currencyFormat from '../../utils/formatPrice'
 
 const { height } = Dimensions.get('screen')
 
@@ -46,18 +47,6 @@ export default function App() {
 							uri: productResponse.url_imagem,
 						}}
 					/>
-					<Image
-						style={styles.image}
-						source={{
-							uri: productResponse.url_imagem,
-						}}
-					/>
-					<Image
-						style={styles.image}
-						source={{
-							uri: productResponse.url_imagem,
-						}}
-					/>
 				</Swiper>
 				<View style={styles.dataContainer}>
 					<View style={styles.TimeLocation}>
@@ -65,7 +54,7 @@ export default function App() {
 					</View>
 					<View style={styles.NamePrice}>
 						<Text style={styles.NamePriceText}>{productResponse.nome}</Text>
-						<Text style={styles.NamePriceText}>{productResponse.preco_base}</Text>
+						<Text style={styles.NamePriceText}>{currencyFormat(productResponse.preco_base)}</Text>
 						<Text style={styles.NamePromoText}>10% OFF</Text>
 					</View>
 					<View style={styles.divider} />

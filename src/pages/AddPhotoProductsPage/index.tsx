@@ -6,6 +6,7 @@ import styles from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import * as ImageManipulator from 'expo-image-manipulator'
 import AsyncStorage from '@react-native-community/async-storage'
+import { products } from '../../../test'
 
 const pictures: string[] = []
 const picturesInBase64: any = []
@@ -24,7 +25,11 @@ export default function App() {
 		setHasPermission(status === 'granted')
 
 		if (hasPermission) {
-			setCamera(!camera)
+			if (camera) {
+				setCamera(false)
+			} else {
+				setCamera(true)
+			}
 		}
 	}
 
@@ -33,6 +38,10 @@ export default function App() {
 			const data = await camRef.current.takePictureAsync()
 			pictures.push(data.uri)
 		}
+	}
+
+	function close() {
+		setCamera(false)
 	}
 
 	async function save() {
@@ -62,11 +71,11 @@ export default function App() {
 				}
 
 				const { categorySelected } = route.params
-				await AsyncStorage.setItem('@sellerProductData', JSON.stringify({ picturesInBase64, categorySelected }))
 
-				setCamera(false)
+				await AsyncStorage.setItem('@sellerProductData', JSON.stringify({ picturesInBase64, categorySelected }))
 			}
 		}
+		setCamera(false)
 	}
 
 	return (
@@ -120,6 +129,10 @@ export default function App() {
 						<Text style={{ color: '#fff', marginRight: 20 }}>Salvar Foto(s)</Text>
 						<FontAwesome name="save" size={23} color="#fff" />
 					</TouchableOpacity>
+					<TouchableOpacity style={[styles.button, { flexDirection: 'row' }]} onPress={close}>
+						<Text style={{ color: '#fff', marginRight: 20 }}>Fechar</Text>
+						<FontAwesome name="close" size={23} color="#fff" />
+					</TouchableOpacity>
 				</View>
 			) : (
 				<View style={styles.ButtonContainer}>
@@ -134,7 +147,8 @@ export default function App() {
 					<TouchableOpacity style={styles.ButtonAdvance} onPress={handleCamera}>
 						<Text style={styles.Text}>TIRAR FOTO</Text>
 					</TouchableOpacity>
-					<Image style={styles.melinho} source={require('../../../assets/images/nopicture.png')} />
+
+					<Image style={styles.melinho} source={{ uri: pictures[0] }} />
 
 					<TouchableOpacity style={styles.ButtonAdvance} onPress={() => navigation.navigate('NovoProduto')}>
 						<Text style={styles.Text}>AVANÇAR</Text>

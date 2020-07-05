@@ -74,7 +74,7 @@ export default StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		backgroundColor: '#121212',
-		margin: 20,
+		margin: 5,
 		borderRadius: 10,
 		height: 50,
 	},

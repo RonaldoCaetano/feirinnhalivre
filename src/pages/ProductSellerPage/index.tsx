@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { View, Image, ScrollView, Text, TouchableOpacity } from 'react-native'
 import styles from './styles'
-import { products } from '../../../test'
 import ListSellerProducts from '../../components/ListSellerProducts'
 import SearchBar from '../../components/SearchBar'
 import { useNavigation } from '@react-navigation/native'
@@ -19,7 +18,7 @@ export default function App() {
 				<TouchableOpacity style={styles.ButtonAdvance} onPress={() => navigation.navigate('AddProduto')}>
 					<Text style={styles.Text}>ADICIONAR PRODUTO</Text>
 				</TouchableOpacity>
-				<ListSellerProducts products={products} />
+				<ListSellerProducts />
 			</ScrollView>
 		</View>
 	)
