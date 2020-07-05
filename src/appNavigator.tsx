@@ -11,6 +11,7 @@ import LoginScreen from './pages/LoginPage'
 import AuthenticationScreen from './pages/DocumentPage'
 import NameScreen from './pages/NamePage'
 import ProfileScreen from './pages/ProfilePage'
+import Camera from './pages/CameraPage'
 
 const AppStack = createStackNavigator()
 const AppTab = createBottomTabNavigator()
@@ -21,7 +22,7 @@ const TabNavigator = () => {
 			<AppTab.Navigator>
 				<AppTab.Screen
 					name="Home"
-					component={HomeScreen}
+					component={Camera}
 					options={{
 						tabBarLabel: 'Home',
 						tabBarIcon: ({ color, size }) => (

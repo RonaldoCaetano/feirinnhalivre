@@ -20,6 +20,7 @@ interface Products {
 	altura: number
 	largura: number
 	fk_vendedor: number
+	url_imagem: string
 }
 
 const ListProducts = ({ city }: ListProductsProps) => {
@@ -44,7 +45,7 @@ const ListProducts = ({ city }: ListProductsProps) => {
 			<View style={styles.container}>
 				{products.map((product) => (
 					<ProductCard
-						imgSrc={'teste.png'}
+						imgSrc={product.url_imagem}
 						price={product.preco}
 						name={product.nome}
 						navigation={product.nome}
