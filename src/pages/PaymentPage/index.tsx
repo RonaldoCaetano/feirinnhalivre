@@ -3,7 +3,6 @@ import { Platform } from 'react-native'
 import { View, Text, ScrollView } from 'react-native'
 import Avatar from '../../components/Avatar'
 import PaymentLink from '../../components/PaymentLink'
-import { Ionicons } from '@expo/vector-icons'
 import styles from './styles'
 
 export default function App() {

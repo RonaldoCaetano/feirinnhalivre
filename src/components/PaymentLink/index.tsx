@@ -19,16 +19,13 @@ const PaymentLink = ({ iconName, name, description }: PaymentLinkProps) => {
 	const navigation = useNavigation()
 
 	async function sendMessage() {
-		const getUserData = await AsyncStorage.getItem('@userLogged')
-
-		if (getUserData) {
-			const { phone } = JSON.parse(getUserData)
-			if (name === 'link') {
-				api.post('/message', {
-					message: 'http://mpago.la/238N85q',
-					phone,
-				})
-			}
+		if (name === 'link') {
+			api.post('/message', {
+				message: 'http://mpago.la/238N85q',
+				phone: '11954769550',
+			}).then(() => navigation.navigate('PagamentoSucesso'))
+		} else {
+			navigation.navigate('PagamentoSucesso')
 		}
 	}
 
@@ -38,12 +35,12 @@ const PaymentLink = ({ iconName, name, description }: PaymentLinkProps) => {
 				<View>
 					<Ionicons name={iconName} size={ICON_SIZE} color={'#70CDE5'} />
 				</View>
-				<TouchableOpacity onPress={() => navigation.navigate('PagamentoSucesso')}>
+				<TouchableOpacity onPress={sendMessage}>
 					<Text style={styles.LinkName}>{name}</Text>
 					<Text style={styles.LinkDescription}>{description}</Text>
 				</TouchableOpacity>
 			</View>
-			<TouchableOpacity onPress={() => navigation.navigate('PagamentoSucesso')}>
+			<TouchableOpacity onPress={sendMessage}>
 				<Ionicons
 					name={Platform.OS === 'ios' ? 'ios-arrow-forward' : 'md-arrow-forward'}
 					size={ICON_SIZE}
