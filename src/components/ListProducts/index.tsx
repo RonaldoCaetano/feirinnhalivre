@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './styles'
-import { Text, View, ScrollView, Dimensions } from 'react-native'
+import { Text, View, ScrollView, Dimensions, ActivityIndicator } from 'react-native'
 import ProductCard from '../ProductCard'
 import api from './../../api'
 
@@ -25,18 +25,19 @@ interface Products {
 
 const ListProducts = ({ city }: ListProductsProps) => {
 	const [products, setProducts] = useState<Products[]>([])
-
-	useEffect(() => {
-		getProducts()
-	}, [])
+	const [loading, setLoading] = useState<boolean>(true)
 
 	async function getProducts() {
-		await api.get<Products[]>(`/products?city=${city.toUpperCase()}`).then((productsResponse) => {
-			if (productsResponse?.data?.length) {
-				const { data: productsData } = productsResponse
-				setProducts(productsData)
-			}
-		})
+		const { data } = await api.get<Products[]>(`/products?city=${city.toUpperCase()}`)
+
+		if (data?.length) {
+			setProducts(data)
+			setLoading(false)
+		}
+	}
+
+	if (!products.length && loading) {
+		getProducts()
 	}
 
 	return (
@@ -46,18 +47,26 @@ const ListProducts = ({ city }: ListProductsProps) => {
 				paddingVertical: 15,
 			}}
 		>
-			<View style={styles.container}>
-				{products.map((product) => (
-					<ProductCard
-						imgSrc={product.url_imagem}
-						price={product.preco}
-						name={product.nome}
-						navigation={product.nome}
-						key={product.id}
-						id={product.id}
-					/>
-				))}
-			</View>
+			{loading ? (
+				<ActivityIndicator size="large" />
+			) : products.length ? (
+				<View style={styles.container}>
+					{products.map((product) => (
+						<ProductCard
+							imgSrc={product.url_imagem}
+							price={product.preco}
+							name={product.nome}
+							navigation={product.nome}
+							key={product.id}
+							id={product.id}
+						/>
+					))}
+				</View>
+			) : (
+				<View>
+					<Text>Não encontramos produtos na sua região :(</Text>
+				</View>
+			)}
 		</ScrollView>
 	)
 }

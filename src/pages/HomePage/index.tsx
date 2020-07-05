@@ -11,10 +11,17 @@ import AsyncStorage from '@react-native-community/async-storage'
 export default function App() {
 	const [currentLocation, setCurrentLocation] = useState<any>(null)
 	const [city, setCity] = useState<string>('')
+	const [name, setName] = useState<string>('')
 
 	useEffect(() => {
 		;(async () => {
 			const { status } = await Location.requestPermissionsAsync()
+
+			const getUserInfo = await AsyncStorage.getItem('@userLogged')
+
+			const { name } = JSON.parse(getUserInfo)
+
+			setName(name)
 
 			if (status === 'granted') {
 				const location = await Location.getCurrentPositionAsync({})
@@ -61,7 +68,7 @@ export default function App() {
 				<SearchBar onSubmit={null} value={null} updateValue={null} clearValue={null} />
 			</View>
 			<View style={styles.LocationBar}>
-				<LocationBar name={'João Marcos'} address={currentLocation} />
+				<LocationBar name={name} address={currentLocation} />
 			</View>
 
 			<ScrollView style={styles.container}>
