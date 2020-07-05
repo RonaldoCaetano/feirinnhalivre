@@ -2,7 +2,7 @@ import React from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { Platform } from 'react-native'
 import styles from './styles'
-import { Image, View, Text, TouchableOpacity, BackHandler } from 'react-native'
+import { Image, View, Text, TouchableOpacity, BackHandler, Linking } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import * as firebase from 'firebase'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -24,6 +24,8 @@ const ProfileLink = ({ iconName, name, description, rota }: ProfileLinkProps) =>
 			firebase.auth().signOut()
 			await AsyncStorage.removeItem('@userLogged')
 			BackHandler.exitApp()
+		} else if (rota === 'Bot') {
+			Linking.openURL(`whatsapp://send?phone=551148377404&text=Oi`)
 		} else {
 			navigation.navigate(rota)
 		}

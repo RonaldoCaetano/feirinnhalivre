@@ -62,7 +62,7 @@ export default function App() {
 					iconName={Platform.OS === 'ios' ? 'ios-contact' : 'md-contact'}
 				/>
 				<ProfileLink
-					rota="Perfil"
+					rota="Bot"
 					name="Fale com o Melinho"
 					description="Entre em contato com nosso assistente virtual"
 					iconName={Platform.OS === 'ios' ? 'ios-chatboxes' : 'md-chatboxes'}
