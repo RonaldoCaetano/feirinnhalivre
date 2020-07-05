@@ -36,7 +36,27 @@ export default function App() {
 	async function takePicture() {
 		if (camRef) {
 			const data = await camRef.current.takePictureAsync()
-			pictures.push(data.uri)
+
+			if (data?.uri) {
+				pictures.push(data.uri)
+
+				pictures.forEach(async (picture) => {
+					const pictureResized = await ImageManipulator.manipulateAsync(
+						picture,
+						[
+							{
+								resize: { width: 300, height: 300 },
+							},
+						],
+						{
+							compress: 0.2,
+							base64: true,
+							format: ImageManipulator.SaveFormat.PNG,
+						}
+					)
+					picturesInBase64.push(pictureResized.base64)
+				})
+			}
 		}
 	}
 
@@ -45,36 +65,18 @@ export default function App() {
 	}
 
 	async function save() {
-		if (pictures.length) {
-			pictures.forEach(async (picture) => {
-				const pictureResized = await ImageManipulator.manipulateAsync(
-					picture,
-					[
-						{
-							resize: { width: 300, height: 300 },
-						},
-					],
-					{
-						compress: 0.2,
-						base64: true,
-						format: ImageManipulator.SaveFormat.PNG,
-					}
-				)
-				picturesInBase64.push(pictureResized.base64)
-			})
+		if (picturesInBase64.length) {
+			const getSellerProductData = await AsyncStorage.getItem('@sellerProductData')
 
-			if (picturesInBase64.length) {
-				const getSellerProductData = await AsyncStorage.getItem('@sellerProductData')
-
-				if (getSellerProductData) {
-					await AsyncStorage.removeItem('@sellerProductData')
-				}
-
-				const { categorySelected } = route.params
-
-				await AsyncStorage.setItem('@sellerProductData', JSON.stringify({ picturesInBase64, categorySelected }))
+			if (getSellerProductData) {
+				await AsyncStorage.removeItem('@sellerProductData')
 			}
+
+			const { categorySelected } = route.params
+
+			await AsyncStorage.setItem('@sellerProductData', JSON.stringify({ picturesInBase64, categorySelected }))
 		}
+
 		setCamera(false)
 	}
 
