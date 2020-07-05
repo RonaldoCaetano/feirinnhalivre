@@ -15,7 +15,7 @@ export default StyleSheet.create({
 		height: 250,
 	},
 	ButtonContainer: {
-		justifyContent: 'flex-end',
+		justifyContent: 'center',
 		flex: 1,
 		width: '80%',
 	},

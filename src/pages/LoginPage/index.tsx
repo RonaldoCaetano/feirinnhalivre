@@ -8,6 +8,7 @@ import {
 	Image,
 	TouchableOpacity,
 	ActivityIndicator,
+	Alert,
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import * as Google from 'expo-google-app-auth'
@@ -16,11 +17,14 @@ import firebase from 'firebase'
 import styles from './styles'
 import AsyncStorage from '@react-native-community/async-storage'
 import { useNavigation } from '@react-navigation/native'
+import api from '../../api'
+import accentRemover from './../../utils/accentRemover'
 
 export default function App() {
 	const navigation = useNavigation()
 
 	const [loading, setLoading] = useState<boolean>(true)
+	const [phone, setPhone] = useState<string>('')
 
 	useEffect(() => {
 		;(async () => {
@@ -76,6 +80,24 @@ export default function App() {
 		})
 	}
 
+	function handleSubmit() {
+		const accessToken = Math.ceil(Math.random() * 10000)
+
+		api.post('/message', {
+			message: `Seu código de acesso - ${accessToken}`,
+			phone: accentRemover(phone, true),
+		})
+			.then(({ data }) => {
+				if (data && data.response) {
+					navigation.navigate('Cadastro', { phone: accentRemover(phone, true), accessToken })
+				}
+			})
+			.catch((error) => {
+				// console.error(error)
+				Alert.alert('Ocorreu um erro ao enviar a mensagem, por favor, tente novamente')
+			})
+	}
+
 	return (
 		<View style={styles.container}>
 			<StatusBar barStyle="light-content" />
@@ -112,11 +134,12 @@ export default function App() {
 								style={styles.AuthTextView}
 								placeholder="Seu telefone. Ex: 1199999-9999"
 								keyboardType="number-pad"
+								onChangeText={(e) => setPhone(e)}
 							/>
 						</View>
 
-						<TouchableOpacity style={styles.ButtonLogin}>
-							<Text style={styles.Text}>Entrar</Text>
+						<TouchableOpacity style={styles.ButtonLogin} onPress={handleSubmit}>
+							<Text style={styles.Text}>Avançar</Text>
 						</TouchableOpacity>
 					</KeyboardAvoidingView>
 				</View>
