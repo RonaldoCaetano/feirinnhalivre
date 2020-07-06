@@ -13,6 +13,8 @@ Para escanear o QRCode você precisa do app do Expo, que é disponível gratuita
 * [Play Store - Expo](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=pt_BR)
 * [Apple Store - Expo](https://apps.apple.com/br/app/expo-client/id982107779)
 
+**IMPORTANTE** --> **Você precisa alterar o IP que temos no arquivo `api.ts` e colocar o que o Expo gera para você na mesma tela em que temos o QRCode. E mantenha na porta 3333, para evitar problemas**
+
 ## Chatbot
 
 Para utilizar alguns serviços do app, como o login, primeiro você deve mandar uma mensagem com o conteúdo: `yellow-anchovy`, para o número `11 4837 7404`.
