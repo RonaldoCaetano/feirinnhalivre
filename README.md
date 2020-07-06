@@ -10,8 +10,8 @@ Para rodar o projeto, basta executar o comando `yarn start`. Isso fará com que 
 
 Para escanear o QRCode você precisa do app do Expo, que é disponível gratuitamente na AppleStore ou PlayStore
 
-[!https://play.google.com/store/apps/details?id=host.exp.exponent&hl=pt_BR](Play Store - Expo)
-[!https://apps.apple.com/br/app/expo-client/id982107779](Apple Store - Expo)
+[Play Store - Expo](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=pt_BR)
+[Apple Store - Expo](https://apps.apple.com/br/app/expo-client/id982107779)
 
 ## Chatbot
 
