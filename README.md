@@ -45,7 +45,7 @@ Puff Preto
 
 *Bot: Posso sugerir alguns vendedores pra vc*
 
-*Bot: Dona Maria
+*Bot: Dona Maria*
 
 *Bot: Precisa de ajuda com mais alguma coisa?*
 
