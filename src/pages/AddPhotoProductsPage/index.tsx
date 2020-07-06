@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Camera } from 'expo-camera'
 import { FontAwesome } from '@expo/vector-icons'
-import { StatusBar, Text, View, Image, TouchableOpacity } from 'react-native'
+import { StatusBar, Text, View, Image, TouchableOpacity, Alert } from 'react-native'
 import styles from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import * as ImageManipulator from 'expo-image-manipulator'
@@ -80,6 +80,16 @@ export default function App() {
 		setCamera(false)
 	}
 
+	async function goToNextStep() {
+		const getSellerProductData = await AsyncStorage.getItem('@sellerProductData')
+
+		if (getSellerProductData) {
+			navigation.navigate('NovoProduto')
+		} else {
+			Alert.alert('Você precisa tirar uma foto do seu produto')
+		}
+	}
+
 	return (
 		<View style={styles.container}>
 			<StatusBar barStyle="light-content" />
@@ -152,7 +162,7 @@ export default function App() {
 
 					<Image style={styles.melinho} source={{ uri: pictures[0] }} />
 
-					<TouchableOpacity style={styles.ButtonAdvance} onPress={() => navigation.navigate('NovoProduto')}>
+					<TouchableOpacity style={styles.ButtonAdvance} onPress={goToNextStep}>
 						<Text style={styles.Text}>AVANÇAR</Text>
 					</TouchableOpacity>
 				</View>

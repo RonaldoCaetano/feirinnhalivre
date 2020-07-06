@@ -52,7 +52,17 @@ export default function App() {
 				firebase
 					.auth()
 					.signInWithCredential(credential)
-					.then(() => navigation.navigate('Tab'))
+					.then((data) => {
+						if (data?.additionalUserInfo?.profile?.name) {
+							const {
+								additionalUserInfo: {
+									profile: { name },
+								},
+							} = data
+
+							navigation.navigate('Telefone', { name })
+						}
+					})
 					.catch((error) => console.error(error))
 				return result.accessToken
 			} else {
@@ -75,6 +85,17 @@ export default function App() {
 				firebase
 					.auth()
 					.signInWithCredential(credential)
+					.then((data) => {
+						if (data?.additionalUserInfo?.profile?.name) {
+							const {
+								additionalUserInfo: {
+									profile: { name },
+								},
+							} = data
+
+							navigation.navigate('Telefone', { name })
+						}
+					})
 					.catch((error) => console.error(error))
 			}
 		})

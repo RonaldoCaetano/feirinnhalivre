@@ -26,13 +26,17 @@ export default function App() {
 			api.post('/user', {
 				firstName: name,
 				phone,
-			}).then(async ({ data }) => {
-				if (data) {
-					await AsyncStorage.setItem('@userLogged', JSON.stringify({ name, phone }))
-
-					navigation.navigate('Tab')
-				}
 			})
+				.then(async ({ data }) => {
+					if (data) {
+						await AsyncStorage.setItem('@userLogged', JSON.stringify({ name, phone }))
+						navigation.navigate('Tab')
+					}
+				})
+				.catch(async () => {
+					await AsyncStorage.setItem('@userLogged', JSON.stringify({ name, phone }))
+					navigation.navigate('Tab')
+				})
 		} else {
 			Alert.alert('Você precisa preencher o seu nome para continuar')
 		}

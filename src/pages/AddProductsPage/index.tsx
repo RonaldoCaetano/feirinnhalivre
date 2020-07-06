@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { StatusBar, TextInput, KeyboardAvoidingView, Text, View, Image, TouchableOpacity } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
+import { StatusBar, Text, View, Image } from 'react-native'
 import CategoryBar from '../../components/CategoryProductCard'
 import styles from './styles'
 

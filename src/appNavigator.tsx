@@ -25,6 +25,7 @@ import AddPhotoScreen from './pages/AddPhotoProductsPage'
 import NewProductScreen from './pages/NewProductPage'
 import ProductSucScreen from './pages/SuccessProductPage'
 import DocumentScreen from './pages/DocumentPage'
+import ConfirmPhone from './pages/ConfirmPhone'
 
 const AppStack = createStackNavigator()
 const AppTab = createBottomTabNavigator()
@@ -91,6 +92,7 @@ const AuthNavigator = () => {
 				<AppStack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
 				<AppStack.Screen name="Cadastro" component={AuthenticationScreen} />
 				<AppStack.Screen name="Nome" component={NameScreen} />
+				<AppStack.Screen name="Telefone" component={ConfirmPhone} />
 				<AppStack.Screen name="Tab" component={TabNavigator} options={{ headerShown: false }} />
 			</AppStack.Navigator>
 		</NavigationContainer>

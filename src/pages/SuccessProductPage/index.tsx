@@ -10,6 +10,7 @@ export default function App() {
 
 	async function removeStorage() {
 		await AsyncStorage.removeItem('@sellerProductData')
+		navigation.navigate('Produto', { name: route.params.prodName })
 	}
 
 	removeStorage()
@@ -23,10 +24,7 @@ export default function App() {
 
 				<Image style={styles.melinho} source={require('../../../assets/images/success.png')} />
 
-				<TouchableOpacity
-					style={styles.ButtonAdvance}
-					onPress={() => navigation.navigate('Produto', { name: route.params.prodName })}
-				>
+				<TouchableOpacity style={styles.ButtonAdvance} onPress={removeStorage}>
 					<Text style={styles.Text}>VER ANÚNCIO</Text>
 				</TouchableOpacity>
 			</View>

@@ -17,11 +17,18 @@ export default function App() {
 		;(async () => {
 			const { status } = await Location.requestPermissionsAsync()
 
+			const hasSellerOnStorage = await AsyncStorage.getItem('@sellerProductData')
+
+			if (hasSellerOnStorage) {
+				AsyncStorage.removeItem('@sellerProductData')
+			}
+
 			const getUserInfo = await AsyncStorage.getItem('@userLogged')
 
-			const { name } = JSON.parse(getUserInfo)
-
-			setName(name)
+			if (getUserInfo) {
+				const { name } = JSON.parse(getUserInfo)
+				setName(name)
+			}
 
 			if (status === 'granted') {
 				const location = await Location.getCurrentPositionAsync({})
