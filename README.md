@@ -23,53 +23,53 @@ Isso é necessário pois utilizamos o plano gratuito da Zenvia, que só permite 
 
 Oi
 
-*Bot: Olá, precisa de alguma coisa?
+*Bot: Olá, precisa de alguma coisa?*
 
 Quem é vc?
 
-*Bot: Sou Melinho Olivreira, seu assistente digital no Feirinha Livre. Em que posso te ajudar?
+*Bot: Sou Melinho Olivreira, seu assistente digital no Feirinha Livre. Em que posso te ajudar?*
 
 Como eu cadastro um produto?
 
-*Bot: Deixa eu te mostrar como  (video)
+*Bot: Deixa eu te mostrar como  (video)*
 
 Tem alguma promoção hoje?
 
-*Bot: Tem uma super promoção na loja da Dona Maria, veja agora mesmo os preços.
+*Bot: Tem uma super promoção na loja da Dona Maria, veja agora mesmo os preços.*
 
 Estou procurando um produto
 
-*Bot: Que produto está procurando?
+*Bot: Que produto está procurando?*
 
 Puff Preto
 
-*Bot: Posso sugerir alguns vendedores pra vc
+*Bot: Posso sugerir alguns vendedores pra vc*
 
 *Bot: Dona Maria
 
-*Bot: Precisa de ajuda com mais alguma coisa?
+*Bot: Precisa de ajuda com mais alguma coisa?*
 
 Queria ver a imagem de um produto
 
-Bot: Que produto gostaria de consultar?
+Bot: Que produto gostaria de consultar?*
 
 Puff Preto
 
-*Bot: Este é o Puff Preto oferecido pela Dona Maria (imagem)
+*Bot: Este é o Puff Preto oferecido pela Dona Maria (imagem)*
 
-*Bot: Precisa de ajuda com mais alguma coisa?
+*Bot: Precisa de ajuda com mais alguma coisa?*
 
 Quanto ele custa?
 
-*Bot: Este produto custa: R$24
+*Bot: Este produto custa: R$24*
 
-*Bot: Precisa de ajuda com mais alguma coisa?
+*Bot: Precisa de ajuda com mais alguma coisa?*
 
 Quero adicionar no eu carrinho
 
-*Bot: O produto foi adicionado em seu carrinho!
+*Bot: O produto foi adicionado em seu carrinho!*
 
-*Bot: Precisa de ajuda com mais alguma coisa?
+*Bot: Precisa de ajuda com mais alguma coisa?*
 
 Isso é tudo
 Até mais. Sempre que precisar é só me chamar.
